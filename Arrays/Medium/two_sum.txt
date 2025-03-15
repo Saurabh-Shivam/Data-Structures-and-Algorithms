@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // brute force -> time complexity O(n^2)
+        // int n = nums.size();
+        // vector<int>ans;
+        // for(int i=0; i<n; i++){
+        //     for(int j=i+1; j<n; j++){
+        //         if(nums[i]+nums[j] == target){
+        //             ans.push_back(i);
+        //             ans.push_back(j);
+        //         }
+        //     }
+        // }
+
+        // return ans;
+
+        // optimising to  time complexity -> O(nlog n)
+        map<int,int>hashMap;
+        int n = nums.size();
+        for(int i=0; i<n; i++){
+            int firstElem = nums[i];
+            int secondElem = target - firstElem;
+            if(hashMap.find(secondElem) != hashMap.end()){
+                return {hashMap[secondElem], i};
+            }
+
+            hashMap[firstElem] = i;
+        }
+
+        return {-1, -1};
+    }
+};

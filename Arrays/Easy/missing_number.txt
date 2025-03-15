@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+    // BRUTE FORCE
+    //  int x=0;
+    //  sort(nums.begin(),nums.end());
+    //  for(int i =0;i<nums.size(); i++){
+    //    if(nums[i] == x){
+    //        x++;
+    //    }
+    //    else{
+    //       break;
+    //    }
+    //  }
+    //  return x;
+
+     // OPTIMIZED
+    int n = nums.size();
+    // finding the num of all numbers from 0 to n
+    int totalSum = n * (n + 1) / 2; 
+    int arraySum = 0;
+    // finding the sum of all elements in the array
+    for (int num : nums) {
+            arraySum += num;
+    }
+    // getting the missing number
+    return totalSum - arraySum; 
+    }
+};

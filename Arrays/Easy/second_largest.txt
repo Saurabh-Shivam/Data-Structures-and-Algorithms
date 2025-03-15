@@ -1,0 +1,33 @@
+// User function template for C++
+class Solution {
+  public:
+    // Function returns the second
+    // largest elements
+    int getSecondLargest(vector<int> &arr) {
+    int n = arr.size();
+    if (n < 2) {
+        return -1;
+    }
+
+    int max = INT_MIN;
+    int secondMax = INT_MIN;
+
+    // Finding the largest element
+    for (int i = 0; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+
+    // Finding the second largest element
+    for (int i = 0; i < n; i++) {
+        if (arr[i] > secondMax && arr[i] < max) {
+            secondMax = arr[i];
+        }
+    }
+
+    // If secondMax is still INT_MIN, there is no second largest element
+    return (secondMax == INT_MIN) ? -1 : secondMax;
+}
+
+};
