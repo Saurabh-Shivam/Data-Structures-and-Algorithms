@@ -1,0 +1,52 @@
+    int maxSubArray(vector<int>& nums) {
+        // brute force
+        // int maxi=nums[0];
+        // int n = nums.size();
+        // for(int i=0; i<n; i++){
+        //     int sum = nums[i];
+        //     for(int j=i+1; j<n; j++){
+        //         sum += nums[j];
+        //         maxi = max(sum, maxi);
+        //     }
+        // }
+        // return maxi;
+
+          // optimised using kadane's algo O(n)
+          int maxSum = nums[0];
+          int currSum = nums[0];
+    
+          for (int i = 1; i < nums.size(); i++) {
+            // Either extend the current subarray or start a new one
+            currSum = max(nums[i], currSum + nums[i]);
+            maxSum = max(maxSum, currSum);
+         }
+        return maxSum;
+
+    }
+
+    // if we are asked to print subarray
+    int maxSubArray(vector<int>& nums) {
+    int maxSum = nums[0];
+    int currSum = nums[0];
+    int start = 0, end = 0, tempStart = 0; // for tracking subarray
+    for (int i = 1; i < nums.size(); i++) {
+        if (currSum + nums[i] < nums[i]) {
+            currSum = nums[i];
+            tempStart = i; // start new subarray
+        } else {
+            currSum += nums[i]; // extend current subarray
+        }
+        if (currSum > maxSum) {
+            maxSum = currSum;
+            start = tempStart; // update best subarray start
+            end = i;           // update best subarray end
+        }
+    }
+    // Print the subarray
+    cout << "Max Subarray: ";
+    for (int i = start; i <= end; i++) {
+        cout << nums[i] << " ";
+    }
+    cout << endl;
+    return maxSum;
+}
