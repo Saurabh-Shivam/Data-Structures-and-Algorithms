@@ -1,0 +1,74 @@
+class Solution {
+public:
+
+    // brute force O(n^2)
+    // bool findNextElem(vector<int>nums, int elem){
+    //     int n = nums.size();
+    //     for(int i=0; i<n; i++){
+    //         if(nums[i] == elem) return true;
+    //     }
+    //     return false;
+    // }
+    int longestConsecutive(vector<int>& nums) {
+    //     int longest = 1;
+    //     int n = nums.size();
+    //     for(int i=0; i<n; i++){
+    //         int elem = nums[i];
+    //         int count = 1;
+    //         while(findNextElem(nums, elem+1)){
+    //             elem++;
+    //             count++;
+    //         }
+    //         longest = max(longest, count);
+    //     }
+    //     return longest;
+
+    // optimizing O(nlogn)
+    // int n = nums.size();
+    // int longest = 1;
+    // int prevElem = INT_MIN;
+    // int count = 0;
+    // sort(nums.begin(), nums.end());
+    // for(int i=0; i<n; i++){
+    //     if(nums[i]-1 == prevElem){
+    //         count++;
+    //         prevElem = nums[i];
+    //     }
+    //     else if(nums[i] != prevElem){
+    //         count = 1;
+    //         prevElem = nums[i];
+    //     }
+    //     longest = max(longest, count);
+    // }
+    // return longest;
+
+    // optimized O(n)
+   // Each element is only visited once in the inner loop, in total that is the reason
+   // regardless the reason having two loops nested its time complexity is still O(n)
+    int n = nums.size();
+    if (n == 0) return 0; // empty array
+
+    unordered_set<int> numSet; // Set to store all unique elements
+    for (int i = 0; i < n; i++) {
+        numSet.insert(nums[i]); 
+    }
+
+    int longest = 1;
+    for (auto elem : numSet) {
+        // Check if this is the start of a new sequence
+        if (numSet.find(elem - 1) == numSet.end()) {
+            int currentElem = elem;  // Starting element of the current sequence
+            int count = 1;     
+            // Check for next consecutive elements
+            while (numSet.find(currentElem + 1) != numSet.end()) {
+                currentElem++;
+                count++;
+            }
+            longest = max(longest, count);
+        }
+    }
+    return longest;
+
+
+    }
+};
