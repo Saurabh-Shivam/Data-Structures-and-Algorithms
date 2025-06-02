@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int n = nums.size();
+        int start = 0;
+        int end = n-1;
+        int ans = INT_MAX;
+        while(start <= end){
+            int mid = start + (end-start)/2;
+            // edge case to handle if there is no rotation
+            // to reduce unnecessary steps and improve efficiency
+            if (nums[start] <= nums[end]) {
+            // nums[start] will always be the minimum if search space has no rotation
+                ans = min(ans, nums[start]);
+                break;
+            }
+            // left part is sorted
+            if(nums[mid] >= nums[start]){
+                // storing the min value in left part from start to mid
+                ans = min(ans, nums[start]);
+                start = mid+1;
+            }
+            else{ // right part is sorted
+             // storing the min value in right part from mid to end
+                ans = min(ans, nums[mid]);
+                end = mid-1;
+            }
+        }
+
+        return ans;
+    }
+};
