@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        // brute force
+        // int ans = 0;
+        // for(long long i=1; i<=x; i++){
+        //     if(i*i <= x) ans = i;
+        //     else break;
+        // }
+        // return ans;
+
+        // optimized
+        long long start = 1;
+        long long end = x;
+        int ans = 0;
+        while(start <= end){
+            long long mid = start + (end-start)/2;
+            if(mid*mid <= x){
+                ans = mid;
+                start = mid+1;
+            }
+            else{
+                end = mid-1;
+            }
+        }
+        return ans;
+    }
+};

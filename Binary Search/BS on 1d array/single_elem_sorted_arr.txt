@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        // brute force TC -> O(n) and SC -> O(1) (under assumption that all nums[i] < 1000)
+        // int n = nums.size();
+        // int preVal = -1;
+        // vector<int>nonDupnums(1000);
+        // for(int i=0; i<n; i++){
+        //     if(nums[i] == preVal){
+        //         nonDupnums[nums[i]] = -1;
+        //     }
+        //     else{
+        //         nonDupnums[nums[i]] = nums[i];
+        //         preVal = nums[i];
+        //     }
+        // }
+
+        // for(int i=0; i<nonDupnums.size(); i++){
+        //     if(nonDupnums[i] != -1 && nonDupnums[i] != 0)
+        //         return nonDupnums[i];
+        // }
+        // return -1;
+
+        // optimising TC -> O(n) and SC -> O(1)
+        // int n = nums.size(); 
+        // int ans = 0;
+        // // XOR all the elements
+        // for (int i = 0; i < n; i++) {
+        //     ans = ans ^ nums[i];
+        // }
+        // return ans;
+
+        // optimized TC -> O(log n) and SC -> O(1)
+        int n = nums.size(); 
+        //Edge cases:
+        if (n == 1) 
+            return nums[0];
+        if (nums[0] != nums[1])
+             return nums[0];
+        if (nums[n - 1] != nums[n - 2]) 
+            return nums[n - 1];
+
+        int start = 1, end = n - 2;
+        while (start <= end) {
+            int mid = start + (end-start)/2;
+            //if nums[mid] is the single element:
+            if (nums[mid] != nums[mid + 1] && nums[mid] != nums[mid - 1]) {
+                return nums[mid];
+            }
+            //we are in the left
+            if ((mid % 2 == 1 && nums[mid] == nums[mid - 1])
+                || (mid % 2 == 0 && nums[mid] == nums[mid + 1])) {
+                    //eliminate the left half:
+                    start = mid + 1;
+            }
+            //we are in the right
+            else {
+                //eliminate the right half
+                end = mid - 1;
+            }
+        }
+        return -1;
+    }
+};
