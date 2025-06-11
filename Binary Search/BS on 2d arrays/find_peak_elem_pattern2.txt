@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        // brute force
+        // int m = mat.size();
+        // int n = mat[0].size();
+        // for (int i = 0; i < m; ++i) {
+        //     for (int j = 0; j < n; ++j) {
+        //         int up = (i > 0) ? mat[i - 1][j] : -1;
+        //         int down = (i < m - 1) ? mat[i + 1][j] : -1;
+        //         int left = (j > 0) ? mat[i][j - 1] : -1;
+        //         int right = (j < n - 1) ? mat[i][j + 1] : -1;
+
+        //         if (mat[i][j] > up && mat[i][j] > down &&
+        //             mat[i][j] > left && mat[i][j] > right) {
+        //             return {i, j};
+        //         }
+        //     }
+        // }
+        // return {-1, -1};
+
+        // optimized
+        int m = mat.size(), n = mat[0].size();
+        int left = 0, right = n - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            // Find max in the middle column
+            int maxRow = 0;
+            for (int i = 0; i < m; ++i) {
+                if (mat[i][mid] > mat[maxRow][mid]) {
+                    maxRow = i;
+                }
+            }
+
+            // Compare with neighbors
+            int leftVal = (mid > 0) ? mat[maxRow][mid - 1] : -1;
+            int rightVal = (mid < n - 1) ? mat[maxRow][mid + 1] : -1;
+
+            if (mat[maxRow][mid] > leftVal && mat[maxRow][mid] > rightVal) {
+                return {maxRow, mid}; // Found peak
+            } else if (leftVal > mat[maxRow][mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return {-1, -1};
+    }
+};

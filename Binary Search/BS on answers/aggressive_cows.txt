@@ -1,0 +1,36 @@
+SOLVE SIMILAR QUESTION ON LEETCODE -> QUES NO-> 1552
+
+class Solution {
+public:
+    bool canPlaceBalls(vector<int>pos, int dis, int mag){
+        int n = pos.size();
+        int magCount = 1;
+        int lastMag = pos[0];
+        for(int i=0; i<n; i++){
+            if(pos[i] - lastMag >= dis){
+                magCount++;
+                lastMag = pos[i];
+            }
+            if(magCount >= mag) return true;
+        }
+        return false;
+    }
+
+    int maxDistance(vector<int>& position, int m) {
+        int n = position.size();
+        sort(position.begin(), position.end());
+        int start = 1, end = position[n-1] - position[0];
+        int ans = -1;
+        while(start <= end){
+            int mid = start + (end - start)/2;
+            if(canPlaceBalls(position, mid, m) == true){
+                ans = mid;
+                start = mid+1;
+            }
+            else{
+                end = mid-1;
+            }
+        }
+        return ans;
+    }
+};

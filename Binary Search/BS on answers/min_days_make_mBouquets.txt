@@ -1,0 +1,49 @@
+class Solution {
+public:
+
+    int possibleBouq(vector<int>bloomDay, int day, int m, int k){
+        int n = bloomDay.size(); 
+        int count = 0;
+        int noOfBouq = 0;
+        // count the number of bouquets
+        for (int i = 0; i < n; i++) {
+            if (bloomDay[i] <= day) {
+                count++;
+            }
+            else {
+                noOfBouq += (count / k);
+                count = 0;
+            }
+        }
+        noOfBouq += (count / k);
+        return noOfBouq >= m;
+    }
+
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        long long val = m * k;
+        int n = bloomDay.size(); 
+        if (val > n) return -1; //impossible case
+        //find maximum and minimum:
+        int mini = INT_MAX, maxi = INT_MIN;
+        for (int i = 0; i < n; i++) {
+            mini = min(mini, bloomDay[i]);
+            maxi = max(maxi, bloomDay[i]);
+        }
+
+        //apply binary search
+        int start = mini, end = maxi;
+        while (start <= end) {
+            // search space is btwn min and max value
+            int mid = start + (end - start) / 2;
+            if (possibleBouq(bloomDay, mid, m, k)) {
+                // check for less value/day on left side
+                end = mid - 1;
+            }
+            else{
+                // day doesn't satisfy search on right side 
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+};

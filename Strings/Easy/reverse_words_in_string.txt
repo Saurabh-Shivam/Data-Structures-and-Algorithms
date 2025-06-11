@@ -1,0 +1,26 @@
+TC -> O(n)
+SC -> O(n)
+class Solution {
+public:
+    string reverseWords(string s) {
+        // reading word ignoring spaces
+        istringstream iss(s);              
+        vector<string> words;          
+        string word;
+        // reading one word at a time auto skips spaces
+        while (iss >> word) {               
+            words.push_back(word);
+        }
+        reverse(words.begin(), words.end()); 
+        string result;
+        for (int i = 0; i < words.size(); ++i) {
+            result += words[i];    
+            // adding space if it is not the last word        
+            if (i != words.size() - 1) {
+                result += " ";                
+            }
+        }
+
+        return result;
+    }
+};

@@ -1,0 +1,21 @@
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        // brute force
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        vector<int>merged(nums1);
+        merged.insert(merged.end(), nums2.begin(), nums2.end());
+        std::sort(merged.begin(), merged.end());
+        int mergedSize = merged.size();
+        double ans;
+        if(mergedSize % 2 != 0){
+            ans = merged[mergedSize/2];
+        }
+        else{
+            ans = ( merged[mergedSize/2 - 1] + merged[mergedSize/2] ) / 2.0;
+        }
+        return ans;
+    }
+};
