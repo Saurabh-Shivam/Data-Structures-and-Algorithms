@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        // brute force TC -> O(nlogn) and SC -> O(n)
+        // if (s.length() != t.length()) return false;
+        // sort(s.begin(), s.end());
+        // sort(t.begin(), t.end());
+        // return s == t;
+
+        // optimized TC -> O(n) and SC -> O(1)
+        if (s.length() != t.length()) return false;
+        // initializing with 0
+        int count[26] = {0}; 
+        for (char ch : s) count[ch - 'a']++;
+        for (char ch : t) count[ch - 'a']--;
+        for (int i = 0; i < 26; ++i)
+            if (count[i] != 0) return false;
+        return true;
+
+        // using unordered map
+        // if (s.length() != t.length()) return false;
+        // unordered_map<char, int> count;
+        // for (char ch : s) count[ch]++;
+        // for (char ch : t) count[ch]--;
+        // for (auto pair : count)
+        //     if (pair.second != 0) return false;
+        // return true;
+    }
+};

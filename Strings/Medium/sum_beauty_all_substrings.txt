@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int beautySum(string s) {
+        // brute force O(n^2)
+        // int totalBeauty = 0;
+        // int n = s.length();
+        // for (int i = 0; i < n; ++i) {
+        //     for (int j = i; j < n; ++j) {
+        //         string sub = s.substr(i, j - i + 1);
+        //         // Count frequency of each character
+        //         vector<int> freq(26, 0);
+        //         for (char c : sub) {
+        //             freq[c - 'a']++;
+        //         }
+        //         // Find max and min frequencies (ignoring 0s)
+        //         int maxFreq = 0, minFreq = INT_MAX;
+        //         for (int f : freq) {
+        //             if (f > 0) {
+        //                 maxFreq = max(maxFreq, f);
+        //                 minFreq = min(minFreq, f);
+        //             }
+        //         }
+        //         totalBeauty += (maxFreq - minFreq);
+        //     }
+        // }
+        // return totalBeauty;
+
+        // optimized O(n)
+        int n = s.length();
+        int totalBeauty = 0;
+
+        for (int i = 0; i < n; ++i) {
+            vector<int> freq(26, 0); 
+
+            for (int j = i; j < n; ++j) {
+                freq[s[j] - 'a']++;  
+                // finding max and min frequency (only counting characters that appear)
+                int maxFreq = 0, minFreq = INT_MAX;
+                for (int k = 0; k < 26; ++k) {
+                    if (freq[k] > 0) {
+                        maxFreq = max(maxFreq, freq[k]);
+                        minFreq = min(minFreq, freq[k]);
+                    }
+                }
+                totalBeauty += (maxFreq - minFreq);
+            }
+        }
+        return totalBeauty;
+    }
+};

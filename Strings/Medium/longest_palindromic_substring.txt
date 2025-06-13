@@ -1,0 +1,59 @@
+class Solution {
+public:
+
+    // brute force
+    // bool isPalindrome(string sbStr){
+    //     int start = 0;
+    //     int end = sbStr.length()-1;
+    //     while(start <= end){
+    //         if(sbStr[start] != sbStr[end]) return false;
+    //         start++;
+    //         end--;
+    //     }
+    //     return true;
+    // }
+    
+    // optimized
+    string expandFromCenter(string s, int left, int right) {
+        while (left >= 0 && right < s.size() && s[left] == s[right]) {
+            left--;
+            right++;
+        }
+        // when loop ends, left and right are one step further than the actual palindrome
+        return s.substr(left + 1, right - left - 1);
+    }
+
+    string longestPalindrome(string s) {
+        // O(n^3)
+        // int n = s.length();
+        // int maxLen = 0;
+        // string longest = "";
+        // // edge case handling
+        // if (s.empty()) return "";
+        // for(int i=0; i<n; i++){
+        //     for(int j=i; j<n; j++){
+        //         string sbStr = s.substr(i, j - i + 1);
+        //         if (isPalindrome(sbStr)) {
+        //             if (sbStr.length() > maxLen) {
+        //                 maxLen = sbStr.length();
+        //                 longest = sbStr;
+        //             }
+        //         }
+        //     }
+        // }
+        // return longest;
+
+        // O(n^2)
+        if (s.empty()) return "";
+        string longest = "";
+
+        for (int i = 0; i < s.size(); i++) {
+            string odd = expandFromCenter(s, i, i);     // Odd length
+            string even = expandFromCenter(s, i, i + 1); // Even length
+
+            if (odd.size() > longest.size()) longest = odd;
+            if (even.size() > longest.size()) longest = even;
+        }
+        return longest;
+        }
+};

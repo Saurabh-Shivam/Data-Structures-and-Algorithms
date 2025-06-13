@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string frequencySort(string s) {
+        // brute force TC -> O(nlogn)
+        // unordered_map<char, int> freq;
+        // // count frequencies
+        // for (char c : s) freq[c]++;
+        // // sort the string using custom comparator
+        // sort(s.begin(), s.end(), [&](char a, char b) {
+        // if both have same frequency then we are checking lexicographically order (a<b)
+        //     return freq[a] > freq[b] || (freq[a] == freq[b] && a < b);
+        // });
+        // return s;
+
+        // optimized bucket sort method TC -> O(n)
+        unordered_map<char, int> freq;
+
+        // Step 1: Count frequencies
+        for (char c : s) {
+            freq[c]++;
+        }
+
+        // Step 2: Prepare buckets (max possible frequency is s.length())
+        int n = s.size();
+        vector<vector<char>> buckets(n + 1);
+
+        for (auto& [ch, count] : freq) {
+            buckets[count].push_back(ch);
+        }
+
+        // tep 3: Build the result string
+        string result;
+        for (int i = n; i >= 1; --i) {
+            for (char c : buckets[i]) {
+                result += string(i, c); // repeat the char i times
+            }
+        }
+        return result;
+    }
+};

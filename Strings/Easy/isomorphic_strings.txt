@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        if (s.length() != t.length()) return false;
+
+        unordered_map<char, char> mapST; // s -> t
+        unordered_map<char, char> mapTS; // t -> s
+
+        for (int i = 0; i < s.length(); ++i) {
+            char cs = s[i];
+            char ct = t[i];
+            // map.count return 1 (true) if element prsent and 0 (false) is element absent
+            if (mapST.count(cs) && mapST[cs] != ct) return false;
+            if (mapTS.count(ct) && mapTS[ct] != cs) return false;
+
+            mapST[cs] = ct;
+            mapTS[ct] = cs;
+        }
+
+        return true;
+        
+    }
+};

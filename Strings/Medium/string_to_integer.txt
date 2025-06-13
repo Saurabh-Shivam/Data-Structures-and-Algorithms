@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int myAtoi(string s) {
+        int i = 0;
+        int n = s.length();
+        // skipping the leading spaces
+        while (i < n && s[i] == ' ') {
+            i++;
+        }
+
+        // handling '+' or '-' sign
+        int sign = 1;
+        if (i < n && (s[i] == '+' || s[i] == '-')) {
+            if (s[i] == '-') sign = -1;
+            i++;
+        }
+
+        // converting characters to integer until a non-digit
+        long long result = 0; 
+
+        while (i < n && isdigit(s[i])) {
+            int digit = s[i] - '0';
+            result = result * 10 + digit;
+
+            // handling the result if out of 32-bit signed int range
+            if (sign * result <= INT_MIN) return INT_MIN;
+            if (sign * result >= INT_MAX) return INT_MAX;
+
+            i++;
+        }
+
+        // applying sign and return result
+        return (long long)(sign * result);
+    }
+};
