@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        // Brute Force TC -> O(n) and SC-> O(n)
+        // if (head == nullptr || head->next == nullptr) return head;
+        // vector<int> oddVals, evenVals;
+        // ListNode* temp = head;
+        // int index = 1;
+
+        // while (temp) {
+        //     if (index % 2 == 1) {
+        //         oddVals.push_back(temp->val);
+        //     } else {
+        //         evenVals.push_back(temp->val);
+        //     }
+        //     temp = temp->next;
+        //     index++;
+        // }
+        // temp = head;
+        // int i = 0, j = 0;
+        // while (temp) {
+        //     if (i < oddVals.size()) {
+        //         temp->val = oddVals[i++];
+        //     } else {
+        //         temp->val = evenVals[j++];
+        //     }
+        //     temp = temp->next;
+        // }
+        // return head;
+        
+        // Optmized approach TC -> O(n) and SC-> O(1)
+        if (head == nullptr || head->next == nullptr) return head;
+        ListNode* odd = head;
+        ListNode* even = head->next;
+        ListNode* evenHead = even;
+        while(even != nullptr && even->next != nullptr){
+            odd->next = even->next;
+            odd = odd->next;
+            even->next = odd->next;
+            even = even->next;
+        }
+        odd->next = evenHead;
+        return head;
+    }
+};

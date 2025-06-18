@@ -1,0 +1,37 @@
+/*
+
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+
+class Solution {
+  public:
+ 
+    int addToNode(Node* temp){
+        if(temp == nullptr) return 1; // base case
+        int carry = addToNode(temp->next);
+        temp->data = temp->data + carry;
+        if(temp->data < 10) return 0;
+        temp->data = 0;
+        return 1;
+    } 
+ 
+    Node* addOne(Node* head) {
+        int carry = addToNode(head);
+        if(carry == 1){
+            Node* newNode = new Node(1);
+            newNode->next = head;
+            head = newNode;
+        }
+        return head;
+    }
+};

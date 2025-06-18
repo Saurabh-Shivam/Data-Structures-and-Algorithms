@@ -1,0 +1,56 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        // brute force TC -> Total = O(n + n) = O(2n) → Still linear, but we traverse the list twice
+        // SC -> O(1)
+        // ListNode* temp = head;
+        // int count = 0;
+        // while(temp != nullptr){
+        //     count++;
+        //     temp = temp->next;
+        // }
+        // int indxToDel = count - n;
+        // temp = head;
+        // int i = 0;
+        // ListNode* prev = nullptr;
+        // while(temp != nullptr && i < indxToDel){
+        //     prev = temp;
+        //     temp = temp->next;
+        //     i++;
+        // }
+        // if (prev == nullptr) {
+        //     head = head->next;
+        // } else {
+        //     prev->next = temp->next;
+        // }
+        // delete temp;
+        // return head;
+
+        // optimized approach TC -> O(n)
+        // SC -> O(1)
+        ListNode* fast = head;
+        ListNode* slow = head;
+        for(int i=0; i<n; i++){
+            fast = fast->next;
+        }
+        if(fast == nullptr) return head->next;
+        while(fast->next != nullptr){
+            fast = fast->next;
+            slow = slow->next;
+        }
+        ListNode* delNode = slow->next;
+        slow->next = delNode->next;
+        delete delNode;
+        return head;
+    }
+};

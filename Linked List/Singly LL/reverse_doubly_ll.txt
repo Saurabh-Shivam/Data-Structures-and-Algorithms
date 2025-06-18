@@ -1,0 +1,31 @@
+/*
+class DLLNode {
+  public:
+    int data;
+    DLLNode *next;
+    DLLNode *prev;
+
+    DLLNode(int val) {
+        data = val;
+        this->next = NULL;
+        this->prev = NULL;
+    }
+};
+*/
+class Solution {
+  public:
+    // Function to reverse a doubly linked list
+    DLLNode* reverseDLL(DLLNode* head) {
+        // Your code here
+        DLLNode* curr = head;
+        DLLNode* previo = nullptr;
+        while(curr != nullptr){
+            DLLNode* temp = curr->next;
+            curr->next = previo;
+            previo = curr;
+            curr->prev = temp;
+            curr = temp;
+        }
+        return previo;
+    }
+};
