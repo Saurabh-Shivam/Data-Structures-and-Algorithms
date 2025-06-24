@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    vector<string> generateBinaryStrings(int N) {
+        vector<string> result;
+        generateString("", N, false, result);
+        return result;
+    }
+
+  private:
+    void generateString(string current, int n, bool prevOne, vector<string> &result) {
+        if (current.length() == n) {
+            result.push_back(current);
+            return;
+        }
+        
+        // Always allowed to add '0'
+        generateString(current + '0', n, false, result);
+
+        // Only add '1' if the previous character was not '1'
+        if (!prevOne) {
+            generateString(current + '1', n, true, result);
+        }
+    }
+};

@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        // edge case if empty list or single element or no rotation
+        if (head == null || head.next == null || k == 0) return head;
+
+        // finding length and last node (tail)
+        ListNode tail = head;
+        int len = 1;
+        while (tail.next != null) {
+            tail = tail.next;
+            len++;
+        }
+
+        k = k % len;
+        if (k == 0) return head;
+
+        // finding new tail
+        int stepsToNewTail = len - k;
+        ListNode newTail = head;
+        for (int i = 1; i < stepsToNewTail; i++) {
+            newTail = newTail.next;
+        }
+
+        tail.next = head;        
+        head = newTail.next;    
+        newTail.next = null;      
+
+        return head;
+    }
+}

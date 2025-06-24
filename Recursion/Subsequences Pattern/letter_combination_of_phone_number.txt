@@ -1,0 +1,30 @@
+class Solution {
+public:
+
+    void findLetterCombi(int ind, string &digits, vector<string>& phoneLetter, string &curr, vector<string>& res){
+        if(ind == digits.size()){
+            res.push_back(curr);
+            return;
+        }
+
+        string letters = phoneLetter[digits[ind] - '0'];
+        for(char ch: letters){
+            curr.push_back(ch);
+            findLetterCombi(ind+1, digits, phoneLetter, curr, res);
+            curr.pop_back();
+        }
+    }
+
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty()) return {};
+
+        vector<string> phoneLetter = {
+            "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+        };
+
+        vector<string> res;
+        string curr;
+        findLetterCombi(0, digits, phoneLetter, curr, res);
+        return res;
+    }
+};

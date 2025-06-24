@@ -1,0 +1,93 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    // Helper function to reverse a linked list
+    ListNode* reverseLL(ListNode* head) {
+        ListNode* curr = head;
+        ListNode* prev = nullptr;
+
+        // Standard iterative reversal of linked list
+        while (curr != nullptr) {
+            ListNode* temp = curr->next; // store next node
+            curr->next = prev;           // reverse the pointer
+            prev = curr;                 // move prev forward
+            curr = temp;                 // move curr forward
+        }
+
+        return prev; // new head of the reversed list
+    }
+
+    // Helper function to get the k-th node from the current node
+    ListNode* getKthNode(ListNode* temp, int k) {
+        k = k - 1; // since temp is already the 1st node
+
+        // Move forward k - 1 times
+        while (temp != nullptr && k > 0) {
+            k--;
+            temp = temp->next;
+        }
+
+        return temp; // may return nullptr if fewer than k nodes left
+    }
+
+    // Main function to reverse nodes in k-sized groups
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* temp = head;        // current node to process
+        ListNode* prevNode = nullptr; // last node of the previous reversed group
+
+        while (temp != nullptr) {
+            // Get the k-th node from temp to check if a group of k exists
+            ListNode* kthNode = getKthNode(temp, k);
+            
+            // If fewer than k nodes remain, no reversal is done
+            if (kthNode == nullptr) {
+                if (prevNode) prevNode->next = temp; // connect leftover nodes if needed
+                break;
+            }
+
+            // Save the node after the k-th to reconnect later
+            ListNode* nextNode = kthNode->next;
+
+            // Disconnect current group from the rest of the list
+            kthNode->next = nullptr;
+
+            // Reverse current group and get new head
+            ListNode* newHead = reverseLL(temp);
+
+            // Update head of final list if this was the first group
+            if (temp == head) {
+                head = newHead;
+            } else {
+                // Connect previous group to the new head
+                prevNode->next = newHead;
+            }
+
+            // Update prevNode to the last node of the current group (which is 'temp')
+            prevNode = temp;
+
+            // Move temp to the next group
+            temp = nextNode;
+        }
+
+        return head;
+    }
+};

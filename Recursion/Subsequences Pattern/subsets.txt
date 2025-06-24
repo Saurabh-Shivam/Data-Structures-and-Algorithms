@@ -1,0 +1,26 @@
+class Solution {
+public:
+
+    // TC -> O(2^n) and SC -> O(n) (Recursion) + O(2^n × n) (Result)
+    void returnSubset(vector<int> &nums, int i, vector<vector<int>>& res,  vector<int>& curr){
+        if(i == nums.size()) {
+            res.push_back(curr);
+            return;
+        }
+        // include
+        curr.push_back(nums[i]);
+        returnSubset(nums, i+1, res, curr);
+        // backtrack
+        curr.pop_back();
+        // exclude
+        returnSubset(nums, i+1, res, curr);
+        
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> curr;
+        returnSubset(nums, 0, res, curr);
+        return res;
+    }
+};

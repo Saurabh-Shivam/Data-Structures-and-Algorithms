@@ -1,0 +1,47 @@
+    void subSetSum(int ind, int currentSum, vector<int>& arr, vector<int>& res){
+        if(ind == arr.size()){
+            res.push_back(currentSum);
+            return;
+        }
+        
+        // Include the current element
+        subSetSum(ind + 1, currentSum + arr[ind], arr, res);
+        
+        // Exclude the current element
+        subSetSum(ind + 1, currentSum, arr, res);
+    }
+  
+    vector<int> subsetSums(vector<int>& arr) {
+        vector<int> res;
+        res.reserve(1 << arr.size());  // Reserve space for all subsets (optional)
+        subSetSum(0, 0, arr, res);
+        return res;
+    }
+
+
+    // alternative approach
+        void subSetSum(int ind, vector<int>& arr, vector<int>& curr, vector<int>& res){
+        if(ind == arr.size()){
+            int sum = 0;
+            for(int i=0; i<curr.size(); i++){
+                sum += curr[i];
+            }
+            res.push_back(sum);
+            return;
+        }
+        
+        curr.push_back(arr[ind]);
+        subSetSum(ind+1, arr, curr, res);
+        
+        curr.pop_back();
+        
+        subSetSum(ind+1, arr, curr, res);
+    }
+  
+    vector<int> subsetSums(vector<int>& arr) {
+        vector<int>curr;
+        vector<int> res;
+        subSetSum(0, arr, curr, res);
+        return res;
+        
+    }

@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void findCombinations(int i, vector<int>& nums, int target,
+    vector<vector<int>>& res, vector<int>& curr) {
+
+        // base case
+        if (i == nums.size()) {
+            if (target == 0)
+                res.push_back(curr);
+            return;
+        }
+
+        // picking up element
+        if (nums[i] <= target) {
+            curr.push_back(nums[i]);
+            findCombinations(i, nums, target - nums[i], res, curr);
+            curr.pop_back();
+        }
+        // not picking element
+        findCombinations(i + 1, nums, target, res, curr);
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> curr;
+        findCombinations(0, candidates, target, res, curr);
+        return res;
+    }
+};

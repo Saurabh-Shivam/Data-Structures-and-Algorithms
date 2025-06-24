@@ -1,0 +1,41 @@
+class Solution {
+public:
+    // iterative way TC -> O(log n) SC -> O(1)
+    double myPow(double x, int n) {
+       long long N = n; 
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
+        }
+        double ans = 1.0;
+        while (N > 0) {
+            if (N % 2 == 1) {
+                ans *= x;
+                N -= 1;
+            } else {
+                x *= x;
+                N /= 2;
+            }
+        }
+        return ans;
+    }
+
+    // recursive way TC -> O(log n) SC -> O(n)
+    // double myPow(double x, int n) {
+    //     long long N = n;
+    //     if (N < 0) {
+    //         x = 1 / x;
+    //         N = -N;
+    //     }
+    //     return power(x, N);
+    // }
+
+    // double power(double x, long long N) {
+    //     if (N == 0) return 1.0;
+
+    //     double half = power(x, N / 2);
+
+    //     if (N % 2 == 0) return half * half;
+    //     else return half * half * x;
+    // }
+};
