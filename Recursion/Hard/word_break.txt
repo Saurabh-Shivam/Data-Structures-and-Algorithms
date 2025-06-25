@@ -1,0 +1,18 @@
+// TLE...will be solved using DP
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        return canBreak(s, wordDict);
+    }
+    
+    bool canBreak(string s, vector<string>& wordDict) {
+        if (s.empty()) return true;
+        for (int i = 1; i <= s.length(); ++i) {
+            string prefix = s.substr(0, i);
+            if (find(wordDict.begin(), wordDict.end(), prefix) != wordDict.end()) {
+                if (canBreak(s.substr(i), wordDict)) return true;
+            }
+        }
+        return false;
+    }
+};
