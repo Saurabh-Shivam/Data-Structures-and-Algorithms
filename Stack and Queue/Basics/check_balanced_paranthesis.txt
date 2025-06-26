@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool isValid(string s) {
+       stack<char> st;
+        bool valid = true;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] == '(' || s[i] == '{' || s[i] == '[') {
+                st.push(s[i]);
+            } else {
+                // handling the case if we get closing bracket at first
+                if (st.empty()) {
+                    valid = false;  
+                    break; 
+                }
+
+                char top = st.top();
+                st.pop();
+
+                // check for correct matching
+                if ((s[i] == ')' && top != '(') ||
+                    (s[i] == '}' && top != '{') ||
+                    (s[i] == ']' && top != '[')) {
+                    valid = false;
+                    break; 
+                }
+            }
+        }
+
+        // stack should be empty if all brackets are matched
+        if (!st.empty()) valid = false;
+
+        return valid;
+    }
+};

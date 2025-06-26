@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "*.ejs": "html",
-    "valarray": "cpp"
+    "valarray": "cpp",
+    "ostream": "cpp"
   }
 }
