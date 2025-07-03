@@ -1,12 +1,30 @@
 class Solution {
 public:
-    void rotate(vector<int>& nums, int k) {
-        int n=nums.size();
-        vector<int>temp(n);
-        for(int i=0; i<n; i++){
-            temp[(i+k)%n] = nums[i];
-        }
-        // copy temp array to original array
-        nums = temp;
+    void moveZeroes(vector<int>& nums) {
+    // BRUTE FORCE
+    //    int n = nums.size();
+    // for(int i=0; i<n; i++){
+    //        bool swapCount = false;
+    //        for(int j=0; j<n-i; j++){
+    //            if(nums[j] == 0 && j<n-1){
+    //                swapCount = true;
+    //                swap(nums[j],nums[j+1]);
+    //             }
+    //         }
+    //     // optimising the code if the array has already put all the zeros at the end
+    //     if (swapCount == false)
+    //         break;
+    //     }
+
+    // OPTIMISED CODE
+    int left = 0;
+
+        for (int right = 0; right < nums.size(); right++) {
+            if (nums[right] != 0) {
+                swap(nums[right], nums[left]);
+                left++;
+            }
+        }      
+
     }
 };

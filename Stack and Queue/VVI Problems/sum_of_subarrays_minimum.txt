@@ -1,0 +1,51 @@
+class Solution {
+public:
+    const int MOD = 1e9 + 7;
+
+    // Computes distances to previous smaller elements
+    vector<int> prevSmallElem(vector<int>& arr){
+        int n = arr.size();
+        vector<int> prev(n);
+        stack<int> st;
+
+        for (int i = 0; i < n; ++i) {
+            while (!st.empty() && arr[st.top()] > arr[i]) {
+                st.pop();
+            }
+            prev[i] = st.empty() ? i + 1 : i - st.top();
+            st.push(i);
+        }
+
+        return prev;
+    }
+
+    // Computes distances to next smaller or equal elements
+    vector<int> nextSmallElem(const vector<int>& arr) {
+        int n = arr.size();
+        vector<int> next(n);
+        stack<int> st;
+
+        for (int i = n - 1; i >= 0; --i) {
+            while (!st.empty() && arr[st.top()] >= arr[i]) {
+                st.pop();
+            }
+            next[i] = st.empty() ? n - i : st.top() - i;
+            st.push(i);
+        }
+
+        return next;
+    }
+
+    int sumSubarrayMins(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> prev = prevSmallElem(arr);
+        vector<int> next = nextSmallElem(arr);
+
+        long long res = 0;
+        for(int i=0; i<n; i++){
+            long long contri = (long long) arr[i] * prev[i] * next[i];
+            res = (res + contri) % MOD;
+        }
+        return (int)res;
+    }
+};

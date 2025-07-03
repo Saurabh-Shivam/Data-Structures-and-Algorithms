@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> countNGEToRight(const vector<int>& arr, const vector<int>& queries) {
+        int n = arr.size();
+        vector<int> ngeCount(n, 0);
+        stack<int> st;
+
+        // Traverse from right to left
+        for (int i = n - 1; i >= 0; --i) {
+            // Remove all elements smaller or equal to arr[i]
+            while (!st.empty() && st.top() <= arr[i]) {
+                st.pop();
+            }
+            // Count of NGEs to the right is current stack size
+            ngeCount[i] = st.size();
+            st.push(arr[i]);
+        }
+
+        // Answer queries
+        vector<int> result;
+        for (int idx : queries) {
+            result.push_back(ngeCount[idx]);
+        }
+
+        return result;
+    }
+};

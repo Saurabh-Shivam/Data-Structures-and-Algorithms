@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        // Brute Force TC -> Outer loop: O(n1) Inner loop: O(n2) in worst case (to find and search) Total: O(n1 * n2)
+        // SC -> O(n)
+        // int n1 = nums1.size();
+        // int n2 = nums2.size();
+        // vector<int> ans;
+        // for (int i = 0; i < n1; i++) {
+        //     int found = -1;
+        //     for (int j = 0; j < n2; j++) {
+        //         if (nums2[j] == nums1[i]) {
+        //             for (int k = j + 1; k < n2; k++) {
+        //                 if (nums2[k] > nums2[j]) {
+        //                     found = nums2[k];
+        //                     break;
+        //                 }
+        //             }
+        //             break;
+        //         }
+        //     }
+        //     ans.push_back(found);
+        // }
+        // return ans;
+
+        // optmised TC -> O(n1 + n2) SC-> O(1)
+        vector<int> nextGreater(10001, -1);
+        stack<int> st;
+        for(int num: nums2){
+            while(!st.empty() && num > st.top()){
+                nextGreater[st.top()] = num;
+                st.pop();
+            }
+            st.push(num);
+        }
+
+        vector<int> ans;
+        for(int num: nums1){
+            ans.push_back(nextGreater[num]);
+        }
+
+        return ans;
+    }
+};

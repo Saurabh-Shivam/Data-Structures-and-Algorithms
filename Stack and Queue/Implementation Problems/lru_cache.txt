@@ -1,0 +1,80 @@
+class LRUCache {
+public:
+    class node{
+    public:
+        int key;
+        int val;
+        node* next;
+        node* prev;
+        node(int key, int val){
+            this->key = key;
+            this->val = val;
+        }
+    };
+
+    node* head = new node(-1, -1);
+    node* tail = new node(-1, -1);
+
+    int cap;
+    unordered_map<int, node*> mpp;
+    
+    LRUCache(int capacity) {
+        cap = capacity;
+        head -> next = tail;
+        tail -> prev = head;
+    }
+
+    void insertAfterHead(node* newNode){
+        node* temp = head->next;
+        newNode->next = temp;
+        newNode->prev = head;
+        head->next = newNode;
+        temp->prev = newNode;
+    }
+
+    void deleteNode(node* delNode){
+        node* delPrev = delNode->prev;
+        delPrev->next = delNode->next;
+        delNode->next->prev = delPrev;
+    }
+    
+    int get(int key) {
+        if(mpp.find(key) != mpp.end()){
+            // map will give reference to that node
+            node* resNode = mpp[key];
+            // deleting and the moving next to head
+            deleteNode(resNode);
+            insertAfterHead(resNode);
+            return resNode->val;
+        }
+        return -1;
+    }
+    
+    void put(int key, int value) {
+        if(mpp.find(key) != mpp.end()){
+            // map will give reference to that node
+            node* resNode = mpp[key];
+            // deleting and the moving next to head
+            resNode->val = value;
+            deleteNode(resNode);
+            insertAfterHead(resNode);
+        }
+        else{
+            if(mpp.size() == cap){
+                node* delNode = tail->prev;
+                mpp.erase(delNode->key);
+                deleteNode(delNode);
+            }
+            node* newNode = new node(key, value);
+            mpp[key] = newNode;
+            insertAfterHead(newNode);
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */

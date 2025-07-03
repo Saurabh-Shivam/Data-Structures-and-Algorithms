@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        string st;
+        for (int i = 0; i < num.size(); i++) {
+            while (!st.empty() && k > 0 && st.back() > num[i]) {
+                st.pop_back();
+                k--;
+            }
+            st.push_back(num[i]);
+        }
+
+        // Remove remaining digits from the end if needed
+        while (k > 0 && !st.empty()) {
+            st.pop_back();
+            k--;
+        }
+
+        // Remove leading zeros
+        int idx = 0;
+        while (idx < st.size() && st[idx] == '0') {
+            idx++;
+        }
+
+        string res = st.substr(idx);
+        return res.empty() ? "0" : res;
+    }
+};

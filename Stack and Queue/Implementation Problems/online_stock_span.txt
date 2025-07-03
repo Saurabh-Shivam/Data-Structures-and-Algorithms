@@ -1,0 +1,47 @@
+// brute force TC -> O(n^2) and SC -> O(n)
+// class StockSpanner {
+// private:
+//     vector<int> prices;
+
+// public:
+//     StockSpanner() {}
+//     int next(int price) {
+//         prices.push_back(price);
+//         int span = 1;
+//         for (int i = prices.size() - 2; i >= 0; --i) {
+//             if (prices[i] <= price)
+//                 ++span;
+//             else
+//                 break;
+//         }
+//         return span;
+//     }
+// };
+
+// optimised TC -> O(n) and SC -> O(n)
+class StockSpanner {
+    stack<pair<int, int>> st;
+public:
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        int span = 1;
+        // pop all prices <= current price and add their count
+        while (!st.empty() && st.top().first <= price) {
+            span += st.top().second;
+            st.pop();
+        }
+
+        st.push({price, span});
+        return span;
+
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */

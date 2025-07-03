@@ -1,0 +1,61 @@
+class Solution {
+public:
+    // Function to calculate contribution as maximum
+    long long getMaxContribution(const vector<int>& nums) {
+        int n = nums.size();
+        long long total = 0;
+        stack<int> s;
+
+        for (int i = 0; i <= n; ++i) {
+            while (!s.empty() && (i == n || nums[s.top()] < nums[i])) {
+                int mid = s.top();
+                s.pop();
+                int left = s.empty() ? -1 : s.top();
+                int right = i;
+                total += (long long)(mid - left) * (right - mid) * nums[mid];
+            }
+            s.push(i);
+        }
+
+        return total;
+    }
+
+    // Function to calculate contribution as minimum
+    long long getMinContribution(const vector<int>& nums) {
+        int n = nums.size();
+        long long total = 0;
+        stack<int> s;
+
+        for (int i = 0; i <= n; ++i) {
+            while (!s.empty() && (i == n || nums[s.top()] > nums[i])) {
+                int mid = s.top();
+                s.pop();
+                int left = s.empty() ? -1 : s.top();
+                int right = i;
+                total += (long long)(mid - left) * (right - mid) * nums[mid];
+            }
+            s.push(i);
+        }
+
+        return total;
+    }
+
+    long long subArrayRanges(vector<int>& nums) {
+        // brute force
+        // long long result = 0;
+        // int n = nums.size();
+        // for (int i = 0; i < n; ++i) {
+        //     int mini = nums[i];
+        //     int maxi = nums[i];
+        //     for (int j = i; j < n; ++j) {
+        //         mini = min(mini, nums[j]);
+        //         maxi = max(maxi, nums[j]);
+        //         result += (maxi - mini);
+        //     }
+        // }
+        // return result;
+
+        // optimised
+        return getMaxContribution(nums) - getMinContribution(nums);
+    }
+};
