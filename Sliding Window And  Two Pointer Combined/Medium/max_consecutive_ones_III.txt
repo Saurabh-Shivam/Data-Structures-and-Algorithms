@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        // brute force TC -> O(n^2) and SC -> O(1)
+        // int n = nums.size();
+        // int maxLen = 0;
+        // for(int i =0; i<n; i++){
+        //     int zero = 0;
+        //     for(int j=i; j<n; j++){
+        //         if(nums[j] == 0) zero++;
+        //         if(zero <= k){
+        //             int len = j-i+1;
+        //             maxLen = max(maxLen, len);
+        //         }
+        //         else break;
+        //     }
+        // }
+        // return maxLen;
+
+        // optimised TC -> O(2n) and SC -> O(1)
+        // int maxLen = 0;
+        // int n = nums.size();
+        // int left = 0, right = 0, zero = 0;
+        // while(right < n){
+        //     if(nums[right] == 0) zero++;
+        //     while(zero > k){
+        //         if(nums[left] == 0) zero--;
+        //         left++;
+        //     }
+        //     if(zero <= k){
+        //         int len = right - left + 1;
+        //         maxLen = max(maxLen, len);
+        //     }
+        //     right++;
+        // }
+        // return maxLen;
+
+        // optimised TC -> O(n) and SC -> O(1)
+        int maxLen = 0;
+        int n = nums.size();
+        int left = 0, right = 0, zero = 0;
+        while(right < n){
+            if(nums[right] == 0) zero++;
+            if(zero > k){
+                if(nums[left] == 0) zero--;
+                left++;
+            }
+            if(zero <= k){
+                int len = right - left + 1;
+                maxLen = max(maxLen, len);
+            }
+            right++;
+        }
+        return maxLen;
+    }
+};
