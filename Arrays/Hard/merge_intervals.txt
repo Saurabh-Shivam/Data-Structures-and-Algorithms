@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        // TC -> O(nlongn + 2n) and SC -> O(n)
+        // int n = intervals.size();
+        // sort(intervals.begin(), intervals.end());
+        // vector<vector<int>> res;
+        // for(int i = 0; i < n; i++){
+        //     // ith row first col
+        //     int start = intervals[i][0];
+        //     // ith row second col
+        //     int end = intervals[i][1];
+        //     // already merged as 2nd col of elem is already less than stored mergred one
+        //     if(!res.empty() && end <= res.back()[1]) continue;
+            
+        //     for(int j = i+1; j < n; j++){
+        //         // jth row 1st col is less than end(second col of next elem)
+        //         if(intervals[j][0] <= end) end = max(end, intervals[j][1]);
+        //         else break;
+        //     }
+        //     res.push_back({start, end});
+        // }
+        // return res;
+
+        // optimising TC -> O(nlongn + n) and SC -> O(n)
+        int n = intervals.size();
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> res;
+        for(int i = 0; i < n; i++){
+            // check if res is emprty or check 0th col of curr elem is greater than res 1st col
+            if(res.empty() || intervals[i][0] > res.back()[1]) res.push_back(intervals[i]);
+            else res.back()[1] = max(res.back()[1], intervals[i][1]);
+        }
+        return res;
+    }
+};

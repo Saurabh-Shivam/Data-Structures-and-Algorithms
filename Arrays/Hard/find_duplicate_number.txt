@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        // brute force TC -> O(nlogn + n) and SC -> O(1)
+        // int n = nums.size();
+        // sort(nums.begin(), nums.end());
+        // for(int i = 0; i < n; i++){
+        //     if(i+1 != nums[i]) return nums[i];
+        // }
+        // return -1;
+
+        // optimised TC -> O(n) and O(1)
+        // imagining this as a cycle and slow is just moving one step where fast is moving two steps
+        int slow = nums[0];
+        int fast = nums[0];
+        // finding the intersection point
+        do{
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }while(slow != fast);
+
+        // finding the entrace to the cycle and now both moving a sapce speed of 1
+        slow = nums[0];
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
+    }
+};
