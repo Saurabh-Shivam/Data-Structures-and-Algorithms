@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        // brute force TC -> O(n^2)and SC-> O(1)
+        // int n = nums.size();
+        // int cnt = 0; 
+        // for (int i = 0 ; i < n; i++) { 
+        //     int sum = 0;
+        //     for (int j = i; j < n; j++) { 
+        //         sum += nums[j];
+        //         if (sum == k) cnt++;
+        //     }
+        // }
+        // return cnt;
+
+        // optmised TC -> O(n) and SC -> O(n)
+        unordered_map<int, int> prefixSumFreq;
+        prefixSumFreq[0] = 1; // handle case when prefixSum == k
+        int prefixSum = 0;
+        int cnt = 0;
+        for(int num: nums){
+            prefixSum += num;
+            if(prefixSumFreq.find(prefixSum - k) != prefixSumFreq.end()){
+                cnt += prefixSumFreq[prefixSum - k];
+            }
+            prefixSumFreq[prefixSum]++;
+        }
+        return cnt;
+    }
+};

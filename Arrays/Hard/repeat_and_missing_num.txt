@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    // TC -> O(n) and SC -> O(n)
+    // need to optmize to space complexity -> O(1)
+    vector<int> findTwoElement(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> res(n+1, 0);
+        vector<int> ans;
+        for(auto& num : arr){
+            res[num]++;
+        }
+        int miss, dup = 0;
+        for(int i=1; i<res.size(); i++){
+            if(res[i] == 2) dup = i;
+            else if(res[i] == 0) miss = i;
+        }
+        ans.push_back(dup);
+        ans.push_back(miss);
+        return ans;
+    }
+};

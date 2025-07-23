@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        // int maxLen = 0;
+        // int n = nums.size();
+        // for(int i = 0; i < n; i++){
+        //     int zeroCnt = 0, oneCnt = 0;
+        //     for(int j = i; j < n; j++){
+        //         if(nums[j] == 0) zeroCnt++;
+        //         else oneCnt++;
+
+        //         if(zeroCnt == oneCnt) maxLen = max(maxLen, j - i + 1);
+        //     }
+        // }
+        // return maxLen;
+
+        unordered_map<int, int> sumIndx;
+        sumIndx[0] = -1; // handles case when full array is valid
+        int maxLen = 0;
+        int sum = 0;
+        int n = nums.size();
+        for(int i = 0; i < n; i++){
+            sum += (nums[i] == 0) ? -1 : 1;
+            if(sumIndx.find(sum) != sumIndx.end()){
+                maxLen = max(maxLen, i - sumIndx[sum]);
+            }
+            else{
+                sumIndx[sum] = i;
+            }
+        }
+        return maxLen;
+    }
+};

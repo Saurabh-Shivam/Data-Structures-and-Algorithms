@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        // brute force
+    //     int maxArea = 0;
+    //     int n = height.size();
+    //     for(int i=0; i<=n; i++){
+    //         for(int j=i+1; j<n; j++){
+    //             int h = min(height[i], height[j]);
+    //             int w = j - i;
+    //             int area = h * w;
+    //             maxArea = max(maxArea, area);
+    //         }
+    //     }
+    //     return maxArea;
+    // }
+
+        // optimised
+        int n = height.size();
+        int left = 0;
+        int right = n -1;
+        int maxArea =0;
+        while(left < right){
+            int h = min(height[left], height[right]);
+            int w = right - left;
+            int area = h * w;
+            maxArea = max(maxArea, area); 
+            // moving the pointer to the shorter line
+            if(height[left] < height[right]) left++;
+            else right--;
+        }
+        return maxArea;
+    }
+};

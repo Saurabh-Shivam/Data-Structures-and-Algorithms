@@ -1,0 +1,29 @@
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        // brute force TC -> O(n*k)
+        // int n = nums.size();
+        // double maxAvg = -1e9;
+        // for(int i = 0; i <= n-k; i++){
+        //     double sum = 0;
+        //     for(int j = i; j < i+k; j++) sum += nums[j];
+        //     double avg = sum / k;
+        //     maxAvg = max(maxAvg, avg);
+        // }
+        // return maxAvg;
+
+        // optimised TC -> O(n)
+        int n = nums.size();
+        double windowSum = 0;
+        // first window
+        for(int i=0; i<k; i++) windowSum += nums[i];
+        double maxSum = windowSum;
+        // slide the window
+        for(int i=k; i<n; i++){
+            // adding the next element and removing the first in window
+            windowSum += nums[i] - nums[i-k];
+            maxSum = max(maxSum, windowSum);
+        }
+        return maxSum/k;
+    }
+};
