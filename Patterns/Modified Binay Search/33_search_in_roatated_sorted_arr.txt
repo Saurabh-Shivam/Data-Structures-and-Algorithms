@@ -1,0 +1,47 @@
+class Solution {
+public:
+
+    // finding pivot
+    int findPivot(vector<int>& nums){
+        int n = nums.size();
+        int start = 0;
+        int end = n-1;
+        int mid = start + (end-start)/2;
+        while(start < end){
+            if(nums[mid] >= nums[0])
+                start = mid+1;
+            else
+                end = mid;
+            mid = start + (end-start)/2;
+        }
+
+        return start;
+    }
+
+    int binarySearch(vector<int>& nums, int start, int end, int key){
+        int n = nums.size();
+        int mid = start + (end-start)/2;
+        while(start <= end){
+            if(nums[mid] == key)
+                return mid;
+            else if(nums[mid] > key)
+                end = mid-1;
+            else
+                start = mid+1;
+            mid = start + (end-start)/2;
+        }
+        return -1;
+    }
+
+    int search(vector<int>& nums, int target) {
+        int pivot = findPivot(nums);
+        int ans = -1;
+        int n = nums.size();
+        int start = 0;
+        int end = n-1;
+        if(target >= nums[pivot] && target <= nums[end])
+           return binarySearch(nums, pivot, end, target);
+        else
+            return binarySearch(nums, start, pivot-1, target);
+    }
+};

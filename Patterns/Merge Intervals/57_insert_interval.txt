@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        // brute force TC -> O(nlogn) and SC -> O(n)
+        // // add new interval
+        // intervals.push_back(newInterval);
+        // // sort by start time
+        // sort(intervals.begin(), intervals.end());
+        // // merge overlapping intervals
+        // vector<vector<int>> merged;
+        // for(auto& interval: intervals){
+        //     if(merged.empty() || merged.back()[1] < interval[0]){
+        //         // no overlap
+        //         merged.push_back(interval);
+        //     }
+        //     else{
+        //         merged.back()[1] = max(merged.back()[1], interval[1]);
+        //     }
+        // }
+        // return merged;
+
+        // optimised TC -> O(n) and SC -> O(n)
+        vector<vector<int>> res;
+        int i = 0, n = intervals.size();
+
+        // adding intervals that end before new interval starts
+        while (i < n && intervals[i][1] < newInterval[0]) {
+            res.push_back(intervals[i]);
+            i++;
+        }
+
+        // merge overlapping intervals
+        while (i < n && intervals[i][0] <= newInterval[1]) {
+            newInterval[0] = min(newInterval[0], intervals[i][0]);
+            newInterval[1] = max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        res.push_back(newInterval);
+
+        // add the remaining intervals
+        while (i < n) {
+            res.push_back(intervals[i]);
+            i++;
+        }
+
+        return res;
+    }
+};

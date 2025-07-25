@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int getSumOfSquares(int num) {
+        int sum = 0;
+        while (num > 0) {
+            int digit = num % 10;
+            sum += digit * digit;
+            num /= 10;
+        }
+        return sum;
+    }
+ 
+    bool isHappy(int n) {
+        // brute force TC -> O(log n) and SC -> O(log n)
+        // unordered_set<int> seen;
+        // while (n != 1) {
+        //     if (seen.count(n)) return false;
+        //     seen.insert(n);
+        //     n = getSumOfSquares(n);
+        // }
+        // return true;
+
+        // optimised TC -> O(log n) and SC -> O(1)
+        int slow = n;
+        int fast = getSumOfSquares(slow);
+        while(fast != 1 && slow != fast){
+            slow = getSumOfSquares(slow);
+            fast = getSumOfSquares(getSumOfSquares(fast));
+        }
+        return fast == 1;
+    }
+};
