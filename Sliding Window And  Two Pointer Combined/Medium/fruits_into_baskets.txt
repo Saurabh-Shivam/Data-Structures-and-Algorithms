@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        // optimal TC -> O(2n)
+        int left = 0, right = 0, maxLen = 0;
+        unordered_map<int,int> hash;
+        while(right < fruits.size()){
+            hash[fruits[right]]++;
+            if(hash.size() > 2){
+                // reducing the complexity to O(n) by removing the while loop
+               // while(hash.size() > 2){
+                    hash[fruits[left]]--;
+                    if(hash[fruits[left]] == 0)
+                        hash.erase(fruits[left]);
+                    left++;
+               // }
+            }
+            if(hash.size() <= 2){
+                maxLen = max(maxLen, right - left + 1);
+            }
+            right++;
+        }
+        return maxLen;
+    }
+};

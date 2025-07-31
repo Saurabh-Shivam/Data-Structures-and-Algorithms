@@ -1,0 +1,65 @@
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        // brute force TC -. O(n^2) and O(1)
+        // int count = 0;
+        // int n = nums.size();
+
+        // for (int i = 0; i < n; ++i) {
+        //     int sum = 0;
+        //     for (int j = i; j < n; ++j) {
+        //         sum += nums[j];
+        //         if (sum == goal)
+        //             count++;
+        //     }
+        // }
+        // return count;
+
+        // optimising TC -> O(n) and O(n)
+        // unordered_map<int, int> prefixCount;
+        // int sum = 0, count = 0;
+        // // base case for sum == goal
+        // prefixCount[0] = 1;
+
+        // for(int num: nums){
+        //     sum += num;
+        //     // if sum - goal has been seen, we can form a subarray ending
+        //     here if(prefixCount.find(sum - goal) != prefixCount.end()){
+        //         count += prefixCount[sum - goal];
+        //     }
+        //     prefixCount[sum]++;
+        // }
+        // return count;
+
+        // optimised TC -> O(n) and O(1)
+        // We want to count the number of subarrays with sum == goal.
+        // This is done using a clever trick:
+        // Count all subarrays with sum ≤ goal
+        // and subtract the number of subarrays with sum ≤ goal - 1.
+
+        // Why this works:
+        // Suppose:
+        //   countAtMost(3) = 10  → 10 subarrays have sum ≤ 3
+        //   countAtMost(2) = 7   → 7 subarrays have sum ≤ 2
+        // Then:
+        //   10 - 7 = 3
+        //   So, there are 3 subarrays with sum exactly == 3
+
+        // Therefore:
+        return countAtMost(nums, goal) - countAtMost(nums, goal - 1);
+    }
+    private:
+        int countAtMost(vector<int>& nums, int k){
+            if(k < 0) return 0;
+            int left = 0, sum = 0, count = 0;
+            for(int right = 0; right < nums.size(); right++){
+                sum += nums[right];
+                while(sum > k){
+                    sum -= nums[left];
+                    left++;
+                }
+                count += right - left + 1;
+            }
+            return count;
+        }
+};

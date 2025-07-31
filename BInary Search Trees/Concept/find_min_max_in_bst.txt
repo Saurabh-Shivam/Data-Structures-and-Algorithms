@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+// Node structure
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+// Insert into BST
+Node* insert(Node* root, int val) {
+    if (root == nullptr)
+        return new Node(val);
+    if (val < root->data)
+        root->left = insert(root->left, val);
+    else
+        root->right = insert(root->right, val);
+    return root;
+}
+
+// Find minimum (leftmost node)
+int findMin(Node* root) {
+    if (root == nullptr) {
+        cout << "Tree is empty." << endl;
+        return -1; // or throw exception
+    }
+    while (root->left != nullptr)
+        root = root->left;
+    return root->data;
+}
+
+// Find maximum (rightmost node)
+int findMax(Node* root) {
+    if (root == nullptr) {
+        cout << "Tree is empty." << endl;
+        return -1; // or throw exception
+    }
+    while (root->right != nullptr)
+        root = root->right;
+    return root->data;
+}
+
+// Example usage
+int main() {
+    Node* root = nullptr;
+    root = insert(root, 50);
+    insert(root, 30);
+    insert(root, 70);
+    insert(root, 20);
+    insert(root, 40);
+    insert(root, 60);
+    insert(root, 80);
+
+    cout << "Minimum value in BST: " << findMin(root) << endl;
+    cout << "Maximum value in BST: " << findMax(root) << endl;
+
+    return 0;
+}

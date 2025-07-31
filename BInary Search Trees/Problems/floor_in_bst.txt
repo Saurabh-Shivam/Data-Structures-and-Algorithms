@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    int floor(Node* root, int x) {
+        int floor = -1;
+        while (root) {
+            if (root->data == x) {
+                return x; // exact match is the floor
+            }
+            if (x > root->data) {
+                floor = root->data;     // possible floor
+                root = root->right;     // move right to find a closer one
+            } else {
+                root = root->left;      // move left to find smaller value
+            }
+        }
+        return floor;
+    }
+};
